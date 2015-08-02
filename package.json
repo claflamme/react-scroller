@@ -1,0 +1,26 @@
+{
+  "name": "infinite-anything",
+  "version": "0.0.0",
+  "description": "Infinite scroll component for React - works on nested DOM elements or the whole window.",
+  "main": "./dist/InfiniteScroll.js",
+  "scripts": {
+    "prepublish": "gulp build"
+  },
+  "keywords": [
+    "react",
+    "infinite",
+    "scroll",
+    "async",
+    "asynchronous",
+    "ajax"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1"
+  },
+  "peerDependencies": {
+    "react": "^0.13.0"
+  }
+}
