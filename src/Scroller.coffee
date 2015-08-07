@@ -1,72 +1,80 @@
-React = require 'react'
+scrollerComponent = (React) ->
 
-module.exports = React.createClass
+  React.createClass
 
-  currentPage: 1
+    currentPage: 1
 
-  getDefaultProps: ->
+    getDefaultProps: ->
 
-    {
-      page: 1
-      continue: false
-      load: ->
-      threshold: 100
-      container: window
-    }
+      {
+        page: 1
+        continue: false
+        load: ->
+        threshold: 100
+        container: window
+      }
 
-  componentDidMount: ->
+    componentDidMount: ->
 
-    @currentPage = @props.page
+      @currentPage = @props.page
 
-    @props.load @currentPage
+      @props.load @currentPage
 
-  componentDidUpdate: ->
+    componentDidUpdate: ->
 
-    @addListener()
+      @addListener()
 
-  componentWillUnmount: ->
+    componentWillUnmount: ->
 
-    @removeListener()
-
-  render: ->
-
-    return React.createElement 'div', null, @props.children
-
-  getContainerOffset: ->
-
-    scroll = @props.container.pageYOffset or @props.container.scrollTop
-    height = @props.container.innerHeight or @props.container.offsetHeight
-
-  getContainerHeight: ->
-
-    return @props.container.innerHeight or @props.container.offsetHeight
-
-  getContainerScrollPos: ->
-
-    return @props.container.pageYOffset or @props.container.scrollTop
-
-  scrollListener: ->
-
-    scroller = React.findDOMNode @
-
-    scrollerOffset = scroller.scrollTop + scroller.offsetHeight
-    containerOffset = @getContainerScrollPos() + @getContainerHeight()
-
-    if (scrollerOffset - containerOffset) < Number(@props.threshold)
       @removeListener()
-      @props.load ++@currentPage
 
-  addListener: ->
+    componentWillReceiveProps: (nextProps)->
 
-    unless @props.continue
-      return
+      # If the page prop is updated, reset the internal counter.
+      if nextProps.page
+        @currentPage = nextProps.page
 
-    @props.container.addEventListener 'scroll', @scrollListener
-    @props.container.addEventListener 'resize', @scrollListener
+    render: ->
 
-    @scrollListener()
+      return React.createElement 'div', null, @props.children
 
-  removeListener: ->
+    getContainerOffset: ->
 
-    @props.container.removeEventListener 'scroll', @scrollListener
-    @props.container.removeEventListener 'resize', @scrollListener
+      scroll = @props.container.pageYOffset or @props.container.scrollTop
+      height = @props.container.innerHeight or @props.container.offsetHeight
+
+    getContainerHeight: ->
+
+      return @props.container.innerHeight or @props.container.offsetHeight
+
+    getContainerScrollPos: ->
+
+      return @props.container.pageYOffset or @props.container.scrollTop
+
+    scrollListener: ->
+
+      scroller = React.findDOMNode @
+
+      scrollerOffset = scroller.scrollTop + scroller.offsetHeight
+      containerOffset = @getContainerScrollPos() + @getContainerHeight()
+
+      if (scrollerOffset - containerOffset) < Number(@props.threshold)
+        @removeListener()
+        @props.load ++@currentPage
+
+    addListener: ->
+
+      unless @props.continue
+        return
+
+      @props.container.addEventListener 'scroll', @scrollListener
+      @props.container.addEventListener 'resize', @scrollListener
+
+      @scrollListener()
+
+    removeListener: ->
+
+      @props.container.removeEventListener 'scroll', @scrollListener
+      @props.container.removeEventListener 'resize', @scrollListener
+
+module.exports = scrollerComponent
