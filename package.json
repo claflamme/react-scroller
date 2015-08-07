@@ -1,6 +1,6 @@
 {
   "name": "react-scroller",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Infinite scroll component for React - works on nested DOM elements or the whole window.",
   "main": "./dist/Scroller.js",
   "scripts": {
