@@ -64,7 +64,7 @@ scrollerComponent = (React) ->
 
     addListener: ->
 
-      unless @props.continue
+      unless @props.continue and @props.container
         return
 
       @props.container.addEventListener 'scroll', @scrollListener
@@ -73,6 +73,9 @@ scrollerComponent = (React) ->
       @scrollListener()
 
     removeListener: ->
+
+      unless @props.container
+        return
 
       @props.container.removeEventListener 'scroll', @scrollListener
       @props.container.removeEventListener 'resize', @scrollListener
